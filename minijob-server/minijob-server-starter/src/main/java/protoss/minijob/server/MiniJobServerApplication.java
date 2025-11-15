@@ -1,0 +1,13 @@
+package protoss.minijob.server;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MiniJobServerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MiniJobServerApplication.class, args);
+    }
+
+}
