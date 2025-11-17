@@ -8,6 +8,10 @@
   <name>minijob</name>
   <modules>
     <module>minijob-server</module>
+    <module>minijob-worker</module>
+    <module>minijob-remote</module>
+    <module>minijob-common</module>
+    <module>minijob-worker-spring-boot-starter</module>
   </modules>
 
   <properties>
@@ -21,6 +25,7 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <springboot.version>3.5.7</springboot.version>
     <lombok.version>1.18.38</lombok.version>
     <guava.version>31.1-jre</guava.version>
   </properties>

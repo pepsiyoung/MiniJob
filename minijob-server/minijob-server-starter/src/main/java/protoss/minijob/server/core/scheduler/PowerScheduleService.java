@@ -24,7 +24,7 @@ public class PowerScheduleService {
 //                return;
 //            }
 //            scheduleFrequentJobCore(allAppIds);
-            scheduleFrequentJobCore();
+            scheduleFrequentJobCore(List.of(1L));
         } catch (Exception e) {
             log.error("[FrequentJobSchedule] schedule frequent job failed.", e);
         }
@@ -40,5 +40,8 @@ public class PowerScheduleService {
 //        RunJobRequest runJobRequest = new RunJobRequest()
 //                .setAppId(jobInfoDO.getAppId()).setJobId(jobId).setDelay(Optional.ofNullable(lifeCycle.getStart()).orElse(0L) - System.currentTimeMillis());
 //        jobService.runJob(runJobRequest.getAppId(), runJobRequest);
+
+        // 简化为发送 dispatch 调度 worker 节点
+        // transportService.tell(taskTracker.getProtocol(), workerUrl, req);
     }
 }
