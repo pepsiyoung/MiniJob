@@ -28,6 +28,7 @@
     <springboot.version>3.5.7</springboot.version>
     <lombok.version>1.18.38</lombok.version>
     <guava.version>31.1-jre</guava.version>
+    <cron-utils.version>9.2.1</cron-utils.version>
   </properties>
 
   <dependencies>
