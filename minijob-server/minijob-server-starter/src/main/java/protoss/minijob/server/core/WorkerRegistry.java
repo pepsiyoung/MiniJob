@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class WorkerRegistry {
     // appName -> worker list
-    private static final ConcurrentHashMap<String, CopyOnWriteArrayList<WorkerInfo>> workerMap = new ConcurrentHashMap<>();
+    // private static final ConcurrentHashMap<String, CopyOnWriteArrayList<WorkerInfo>> workerMap = new ConcurrentHashMap<>();
 
     /**
      * 项目启动时初始化
