@@ -36,25 +36,15 @@ public class CoreScheduleTaskManager implements InitializingBean, DisposableBean
         log.info("minijob-server destroy");
     }
 
-    @RequiredArgsConstructor
-    private static class LoopRunnable implements Runnable {
-
-        private final String taskName;
-
-        private final Long runningInterval;
-
-        private final Runnable innerRunnable;
-
+    private record LoopRunnable(String taskName, Long runningInterval, Runnable innerRunnable) implements Runnable {
         @SuppressWarnings("BusyWait")
         @Override
         public void run() {
             log.info("start task : {}.", taskName);
             while (true) {
                 try {
-
                     // 倒置顺序为 先 sleep 再执行，解决异常情况 while true 打日志的问题 https://github.com/PowerJob/PowerJob/issues/769
                     Thread.sleep(runningInterval);
-
                     innerRunnable.run();
                 } catch (InterruptedException e) {
                     log.warn("[{}] task has been interrupted!", taskName, e);

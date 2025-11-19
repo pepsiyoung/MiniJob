@@ -14,6 +14,7 @@ import protoss.minijob.server.common.timewheel.SimpleTimeWheel;
 import protoss.minijob.server.core.WorkerManager;
 import protoss.minijob.server.core.scheduler.auxiliary.impl.CronTimingStrategyHandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,12 +87,18 @@ public class PowerScheduleService {
         // transportService.tell(taskTracker.getProtocol(), workerUrl, req);
     }
 
+    private static final JobInfo job = new JobInfo();
+
     private void scheduleNormalJob0(TimeExpressionType timeExpressionType, List<Long> appIds) {
 
 //        Lists.partition(appIds, MAX_APP_NUM).forEach(partAppIds -> {
 //        });
 
-        JobInfo job = new JobInfo();
+        job.setId(1L);
+        job.setEnabled(true);
+        job.setCron("0/30 * * * * ? *");
+        if(job.getNextTriggerTime() == 0)
+            job.setNextTriggerTime(System.currentTimeMillis()-500);
         // ① 基础校验
         if (!job.isEnabled()) {
             System.out.println("Job disabled, skip");
@@ -144,8 +151,7 @@ public class PowerScheduleService {
     private boolean dispatchToWorker(WorkerNode worker, JobInstance instance) {
         try {
             // 模拟 HTTP / RPC 调用
-            System.out.println("Send instance " + instance.getId()
-                    + " to worker " + worker.getAddress());
+            System.out.println("Send instance " + instance.getId() + " to worker " + worker.getAddress() + LocalDateTime.now());
             return true;
         } catch (Exception e) {
             return false;

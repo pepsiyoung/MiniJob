@@ -9,17 +9,10 @@
     <artifactId>minijob-worker</artifactId>
     <name>minijob-worker</name>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <properties>
-        <spring.version>5.3.31</spring.version>
-    </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>protoss.minijob</groupId>
-            <artifactId>minijob-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+
     </dependencies>
 </project>

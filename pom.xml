@@ -9,6 +9,7 @@
   <modules>
     <module>minijob-server</module>
     <module>minijob-worker</module>
+    <module>minijob-worker-samples</module>
     <module>minijob-remote</module>
     <module>minijob-common</module>
     <module>minijob-worker-spring-boot-starter</module>
