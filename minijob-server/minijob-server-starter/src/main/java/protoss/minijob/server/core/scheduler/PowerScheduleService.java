@@ -28,13 +28,9 @@ public class PowerScheduleService {
     private static final int MAX_APP_NUM = 10;
     public static final long SCHEDULE_RATE = 15000;
 
-    @Autowired
-    private  WorkerManager workerManager;
-    @Autowired
-    private SimpleTimeWheel timeWheel;
-    @Autowired
-    private CronTimingStrategyHandler cronTimingStrategyHandler;
-
+    private final WorkerManager workerManager;
+    private final SimpleTimeWheel timeWheel;
+    private final CronTimingStrategyHandler cronTimingStrategyHandler;
     private final Dispatcher dispatcher;
 
 
@@ -149,7 +145,7 @@ public class PowerScheduleService {
         job.setNextTriggerTime(nextTime);
 
         // ⑥ 放入时间轮
-        timeWheel.addTask(job, nextTime,() -> scheduleNormalJob(CRON));
+        timeWheel.addTask(job, nextTime, () -> scheduleNormalJob(CRON));
     }
 
     private boolean dispatchToWorker(WorkerNode worker, JobInstance instance) {
