@@ -9,7 +9,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import protoss.minijob.worker.controller.JobController;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -30,6 +33,12 @@ public class MiniJobAutoConfiguration {
 
     public MiniJobAutoConfiguration(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public JobController jobController() {
+        return new JobController();
     }
 
     /**
