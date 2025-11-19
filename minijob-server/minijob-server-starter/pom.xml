@@ -8,11 +8,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>minijob-server-starter</artifactId>
     <version>${project.parent.version}</version>
     <name>minijob-server-starter</name>
-    <description>minijob-server-starter</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

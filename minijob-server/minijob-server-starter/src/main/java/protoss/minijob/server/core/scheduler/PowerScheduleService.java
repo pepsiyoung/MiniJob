@@ -97,8 +97,8 @@ public class PowerScheduleService {
         job.setId(1L);
         job.setEnabled(true);
         job.setCron("0/30 * * * * ? *");
-        if(job.getNextTriggerTime() == 0)
-            job.setNextTriggerTime(System.currentTimeMillis()-500);
+        if (job.getNextTriggerTime() == 0)
+            job.setNextTriggerTime(System.currentTimeMillis() - 500);
         // ① 基础校验
         if (!job.isEnabled()) {
             System.out.println("Job disabled, skip");
@@ -124,7 +124,7 @@ public class PowerScheduleService {
         if (selected == null) {
             System.err.println("No worker available, retry later");
             // 重试：几秒后重放调度
-            timeWheel.addTask(job, now + 3000);
+            timeWheel.addTask(job, now + 3000, () -> scheduleNormalJob(CRON));
             return;
         }
 
@@ -134,7 +134,7 @@ public class PowerScheduleService {
             // 派发失败则重试
             long retryTime = now + 3000;
             System.err.println("Dispatch failed, retry @ " + retryTime);
-            timeWheel.addTask(job, retryTime);
+            timeWheel.addTask(job, retryTime, () -> scheduleNormalJob(CRON));
             return;
         }
 
@@ -145,7 +145,7 @@ public class PowerScheduleService {
         job.setNextTriggerTime(nextTime);
 
         // ⑥ 放入时间轮
-        timeWheel.addTask(job, nextTime);
+        timeWheel.addTask(job, nextTime,() -> scheduleNormalJob(CRON));
     }
 
     private boolean dispatchToWorker(WorkerNode worker, JobInstance instance) {
@@ -159,6 +159,6 @@ public class PowerScheduleService {
     }
 
     private long calcNextTriggerTime(JobInfo job, long now) {
-        return cronTimingStrategyHandler.calculateNextTriggerTime(now, job.getCron(), null,null);
+        return cronTimingStrategyHandler.calculateNextTriggerTime(now, job.getCron(), null, null);
     }
 }
