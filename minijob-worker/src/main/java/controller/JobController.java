@@ -1,20 +1,26 @@
 package controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import core.LocalJobExecutor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import protoss.minijob.common.request.DispatchRequest;
 
 /**
  * @author: ZhuChenyang
  * @date: 2025/11/19
  * @description:
  */
-@RestController("/job")
+@RestController
+@RequiredArgsConstructor
 public class JobController {
 
-    @GetMapping("/run/{appId}")
-    public String run(@PathVariable String appId) {
-        System.out.println("执行");
-        return appId;
+    private final LocalJobExecutor localJobExecutor;
+
+    @PostMapping("/job/run")
+    public String run(@RequestBody DispatchRequest dispatchRequest) {
+        localJobExecutor.execute(dispatchRequest);
+        return "OK";
     }
 }

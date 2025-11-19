@@ -18,5 +18,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${springboot.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>protoss.minijob</groupId>
+            <artifactId>minijob-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>

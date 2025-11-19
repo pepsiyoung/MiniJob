@@ -20,12 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>protoss.minijob</groupId>
-            <artifactId>minijob-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>${springboot.version}</version>

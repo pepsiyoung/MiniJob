@@ -11,6 +11,7 @@ import protoss.minijob.common.model.JobInfo;
 import protoss.minijob.common.model.JobInstance;
 import protoss.minijob.common.model.WorkerNode;
 import protoss.minijob.server.common.timewheel.SimpleTimeWheel;
+import protoss.minijob.server.core.Dispatcher;
 import protoss.minijob.server.core.WorkerManager;
 import protoss.minijob.server.core.scheduler.auxiliary.impl.CronTimingStrategyHandler;
 
@@ -28,11 +29,13 @@ public class PowerScheduleService {
     public static final long SCHEDULE_RATE = 15000;
 
     @Autowired
-    private WorkerManager workerManager;
+    private  WorkerManager workerManager;
     @Autowired
     private SimpleTimeWheel timeWheel;
     @Autowired
     private CronTimingStrategyHandler cronTimingStrategyHandler;
+
+    private final Dispatcher dispatcher;
 
 
     public void scheduleNormalJob(TimeExpressionType timeExpressionType) {
@@ -129,7 +132,8 @@ public class PowerScheduleService {
         }
 
         // ④ 派发实例
-        boolean success = dispatchToWorker(selected, instance);
+        // boolean success = dispatchToWorker(selected, instance);
+        boolean success = dispatcher.runJob(selected, instance);
         if (!success) {
             // 派发失败则重试
             long retryTime = now + 3000;
