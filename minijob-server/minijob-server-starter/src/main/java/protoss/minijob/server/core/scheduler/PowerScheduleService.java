@@ -16,6 +16,7 @@ import protoss.minijob.server.core.WorkerManager;
 import protoss.minijob.server.core.scheduler.auxiliary.impl.CronTimingStrategyHandler;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,7 +96,7 @@ public class PowerScheduleService {
 
         job.setId(1L);
         job.setEnabled(true);
-        job.setCron("0/30 * * * * ? *");
+        job.setCron("20 * * * * ? *");
         if (job.getNextTriggerTime() == 0)
             job.setNextTriggerTime(System.currentTimeMillis() - 500);
         // ① 基础校验
@@ -128,34 +129,25 @@ public class PowerScheduleService {
         }
 
         // ④ 派发实例
-        // boolean success = dispatchToWorker(selected, instance);
-        boolean success = dispatcher.runJob(selected, instance);
-        if (!success) {
-            // 派发失败则重试
-            long retryTime = now + 3000;
-            System.err.println("Dispatch failed, retry @ " + retryTime);
-            timeWheel.addTask(job, retryTime, () -> scheduleNormalJob(CRON));
-            return;
-        }
-
-        System.out.println("Dispatch OK instanceId=" + instance.getId());
+        dispatcher.runJobAsync(selected, instance);
+//        boolean success = dispatcher.runJob(selected, instance);
+//        if (!success) {
+//            // 派发失败则重试
+//            long retryTime = now + 3000;
+//            System.err.println("Dispatch failed, retry @ " + retryTime);
+//            timeWheel.addTask(job, retryTime, () -> scheduleNormalJob(CRON));
+//            return;
+//        }
+        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        log.info("Dispatch OK instanceId={} time={}", instance.getId(), time);
 
         // ⑤ 计算下一次执行时间
-        long nextTime = calcNextTriggerTime(job, now);
+        // long nextTime = calcNextTriggerTime(job, now);
+        long nextTime = cronTimingStrategyHandler.calculateNextTriggerTime(now, job.getCron(), null, null);
         job.setNextTriggerTime(nextTime);
 
         // ⑥ 放入时间轮
         timeWheel.addTask(job, nextTime, () -> scheduleNormalJob(CRON));
-    }
-
-    private boolean dispatchToWorker(WorkerNode worker, JobInstance instance) {
-        try {
-            // 模拟 HTTP / RPC 调用
-            System.out.println("Send instance " + instance.getId() + " to worker " + worker.getAddress() + LocalDateTime.now());
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private long calcNextTriggerTime(JobInfo job, long now) {

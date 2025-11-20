@@ -11,6 +11,6 @@ public class SimpleProcessor {
 
     @MiniJobHandler(name = "one")
     public void one() {
-        System.out.println("one" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println("one：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 }

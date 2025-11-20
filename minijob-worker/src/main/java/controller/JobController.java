@@ -19,8 +19,7 @@ public class JobController {
     private final LocalJobExecutor localJobExecutor;
 
     @PostMapping("/job/run")
-    public String run(@RequestBody DispatchRequest dispatchRequest) {
+    public void run(@RequestBody DispatchRequest dispatchRequest) {
         localJobExecutor.execute(dispatchRequest);
-        return "OK";
     }
 }
